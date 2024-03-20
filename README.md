@@ -16,4 +16,4 @@ The first project is a simple example of using the spring initializer and spinni
 
 ## Chapter 03 - CarDatabase
 
-This second project is a duplicate of Chapter 01 that has been modified to demostrate the basics of ORM, JPA and Hibernate
+This second project is a duplicate of Chapter 01 that has been modified to demonstrate the basics of ORM, JPA and Hibernate
