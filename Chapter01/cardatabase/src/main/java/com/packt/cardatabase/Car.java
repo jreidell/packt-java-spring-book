@@ -1,4 +1,4 @@
-package com.pakt.cardatabase;
+package com.packt.cardatabase;
 
 public class Car {
     private Owner _owner;
