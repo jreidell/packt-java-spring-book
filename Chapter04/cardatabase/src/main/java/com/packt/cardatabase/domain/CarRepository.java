@@ -3,11 +3,16 @@ package com.packt.cardatabase.domain;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 
 public interface CarRepository extends CrudRepository<Car, Long>, PagingAndSortingRepository<Car, Long> {
     // Fetch cars by brand
-    List<Car> findByBrand(String brand);
+    List<Car> findByBrand(@Param("brand") String brand);
+
+    // Fetch cars by color
+    List<Car> findByColor(@Param("color") String color);
 
     // Fetch cars by model
     List<Car> findByModel(String model);
