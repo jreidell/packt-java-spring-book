@@ -16,6 +16,8 @@ The first project is a simple example of using the spring initializer and spinni
 
 ## Chapter 02
 
+Chapter02 wasn't focused on code as much as theory. Here is the output of Chapter 02
+
 ```java
 public class Car { 
   private Owner owner; 
@@ -100,3 +102,7 @@ This second project is a duplicate of Chapter 01 that has been modified to demon
 ## Chapter 04 - CarDatabase
 
 This third project is a duplicate of Chapter 03 that has been modified to demonstrate the implementation of a RESTful Web Service with Spring Boot
+
+## Chapter 05 - CarDatabase
+
+This fourth project is a duplicate of Chapter 04 that has been modified to demonstrate the implementation of API Authentication with Spring Boot
