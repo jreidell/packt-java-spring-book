@@ -96,3 +96,7 @@ public class CarController {
 ## Chapter 03 - CarDatabase
 
 This second project is a duplicate of Chapter 01 that has been modified to demonstrate the basics of ORM, JPA and Hibernate
+
+## Chapter 04 - CarDatabase
+
+This second project is a duplicate of Chapter 03 that has been modified to demonstrate the implementation of a RESTful Web Service with Spring Boot
