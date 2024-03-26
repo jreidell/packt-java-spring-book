@@ -4,6 +4,7 @@ import './App.css';
 import Counter from './Counter';
 import AuthContext from './AuthContext';
 import Hello from './Hello';
+import FirstForm from './FirstForm';
 
 function App() {
   const userName = 'React';
@@ -20,6 +21,7 @@ function App() {
       <h1><Hello /></h1>
       <div className="card">
         <Counter></Counter>
+        <FirstForm />
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
