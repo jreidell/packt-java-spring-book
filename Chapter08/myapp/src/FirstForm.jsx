@@ -6,7 +6,7 @@ function FirstForm() {
     const [email, setEmail] = useState('');
 
     const handleSubmit = (event) => {
-        alert(`Hello ${firstName} ${lastName}`);
+        alert(`Hello ${firstName} ${lastName}\nEmail: ${email}`);
         event.preventDefault();
     }
 
