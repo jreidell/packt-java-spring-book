@@ -6,10 +6,14 @@ function Counter() {
     const [count, setCount] = useState(0);
     useTitle(`You clicked ${count} times`);
 
+    const handleClick = () => {
+        setCount(prevCount => prevCount + 1);
+    }
+
     return (
         <div>
             <p>Counter = {count}</p>
-            <button onClick={() => setCount(prevCount => prevCount + 1)}>
+            <button onClick={handleClick}>
                 Increment
             </button>
         </div>
