@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Counter() {
     const [count, setCount] = useState(0);
+
+    // called after each render
+    useEffect(() => {
+        console.log(`Counter value is now ${count}`);
+        return () => {
+            console.log("Clean up function");
+        };
+    }, [count]);
 
     return (
         <div>
