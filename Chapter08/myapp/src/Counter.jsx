@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
+import './App.css';
 
 function Counter() {
-    const [count, setCount] = useState(0);
-
-    // called after each render
-    useEffect(() => {
-        console.log(`Counter value is now ${count}`);
-        return () => {
-            console.log("Clean up function");
-        };
-    }, [count]);
+    const inputRef = useRef(null);
 
     return (
-        <div>
-            <p>Counter = {count}</p>
-            <button onClick={() => setCount(prevCount => prevCount + 1)}>
-                Increment
+        <>
+            <input ref={inputRef} />
+            <button onClick={() => inputRef.current.focus()}>
+                Focus Input
             </button>
-        </div>
+        </>
     );
 }
 
