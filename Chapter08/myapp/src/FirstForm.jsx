@@ -1,29 +1,23 @@
 import { useState } from "react";
 
 function FirstForm() {
-    const [user, setUser] = useState({
-        firstName: '',
-        lastName: '',
-        email: ''
-    });
-
-    const handleChange = (event) => {
-        setUser({...user, [event.target.name]: event.target.value});
-    }
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSubmit = (event) => {
-        alert(`Hello ${user.firstName} ${user.lastName}`);
+        alert(`Hello ${firstName} ${lastName}`);
         event.preventDefault();
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label>First Name </label>
-            <input type="text" name="firstName" onChange={handleChange} value={user.firstName} /><br />
+            <input type="text" name="firstName" onChange={e => setFirstName(e.target.value)} value={firstName} /><br />
             <label>Last Name </label>
-            <input type="text" name="lastName" onChange={handleChange} value={user.lastName} /><br />
+            <input type="text" name="lastName" onChange={e => setLastName(e.target.value)} value={lastName} /><br />
             <label>Email </label>
-            <input type="email" name="email" onChange={handleChange} value={user.email} /><br />
+            <input type="email" name="email" onChange={e => setEmail(e.target.value)} value={email} /><br />
             <input type="submit" value="Press me" />
         </form>
     );
