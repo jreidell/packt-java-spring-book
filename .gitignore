@@ -38,3 +38,4 @@ out/
 
 # properties file exclusion
 !*.properties
+Chapter13/carfront/.env
