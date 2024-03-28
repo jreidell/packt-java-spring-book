@@ -31,25 +31,26 @@ public class SecurityConfig {
     private final AuthenticationFilter authenticationFilter;
     private final AuthEntryPoint exceptionHandler;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter, AuthEntryPoint exceptionHandler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter,
+            AuthEntryPoint exceptionHandler) {
         this.userDetailsService = userDetailsService;
-        this.authenticationFilter =authenticationFilter;
+        this.authenticationFilter = authenticationFilter;
         this.exceptionHandler = exceptionHandler;
     }
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder((new BCryptPasswordEncoder()));
     }
 
-    //THIS IS NOT LONGER NEEDED NOW THAT WE ARE USING THE DATABASE AS A USER STORE
+    // THIS IS NOT LONGER NEEDED NOW THAT WE ARE USING THE DATABASE AS A USER STORE
     // @Bean
     // public InMemoryUserDetailsManager userDetailService() {
-    //     UserDetails user = User.builder().username("user")
-    //         .password(passwordEncoder().encode("password"))
-    //         .roles("USER").build();
-        
-    //         return new InMemoryUserDetailsManager(user);
+    // UserDetails user = User.builder().username("user")
+    // .password(passwordEncoder().encode("password"))
+    // .roles("USER").build();
+
+    // return new InMemoryUserDetailsManager(user);
     // }
 
     @Bean
@@ -63,13 +64,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception {
-        http.csrf((csrf) -> csrf.disable())
-            .cors(withDefaults())
-            .sessionManagement((sessionMangement) -> sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login").permitAll().anyRequest().authenticated())
-            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
+                .authorizeRequests((authorizeHttpRequests) -> authorizeHttpRequests.anyRequest().permitAll());
+
+        /*
+         * http.csrf((csrf) -> csrf.disable())
+         * .cors(withDefaults())
+         * .sessionManagement((sessionMangement) ->
+         * sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+         * .authorizeHttpRequests((authorizeHttpRequests) ->
+         * authorizeHttpRequests.requestMatchers(HttpMethod.POST,
+         * "/login").permitAll().anyRequest().authenticated())
+         * .addFilterBefore(authenticationFilter,
+         * UsernamePasswordAuthenticationFilter.class)
+         * .exceptionHandling((exceptionHandling) ->
+         * exceptionHandling.authenticationEntryPoint(exceptionHandler));
+         */
 
         return http.build();
     }
