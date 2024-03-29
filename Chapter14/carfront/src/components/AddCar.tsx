@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Dialog , DialogActions, DialogTitle } from "@mui/material";
+import { Dialog , DialogActions, DialogTitle, Button, Tooltip } from "@mui/material";
+import { IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import { Car } from "../Types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addCar } from "../api/carapi";
@@ -54,13 +59,19 @@ function AddCar() {
 
     return(
         <>
-        <button onClick={handleClickOpen}>New Car</button>
+        <Tooltip title="Add New Car">
+        <IconButton onClick={handleClickOpen}><AddIcon fontSize="medium" /><DirectionsCarIcon fontSize="medium" /></IconButton>
+        </Tooltip>
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>New Car</DialogTitle>
             <CarDialogContent car={car} handleChange={handleChange} />
             <DialogActions>
-                <button onClick={handleClose}>Cancel</button>
-                <button onClick={handleSave}>Save</button>
+            <Tooltip title="Cancel">
+                    <CancelIcon fontSize="medium" onClick={handleClose}>Cancel</CancelIcon>
+                </Tooltip>
+                <Tooltip title="Save">
+                    <SaveIcon fontSize="medium" onClick={handleSave}>Save</SaveIcon>
+                </Tooltip>
             </DialogActions>
         </Dialog>
         </>
