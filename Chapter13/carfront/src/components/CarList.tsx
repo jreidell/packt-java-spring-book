@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCar, getCars } from "../api/carapi";
-import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Snackbar } from "@mui/material";
 import AddCar from "./AddCar";
+import EditCar from "./EditCar";
 
 function CarList() {
     const [open, setOpen] = useState(false);
@@ -34,6 +35,17 @@ function CarList() {
         {field: 'registrationNumber', headerName: "Reg.nr", width: 150},
         {field: 'modelYear', headerName: "Model Year", width: 150},
         {field: 'price', headerName: "Price", width: 150},
+        {
+            field: "edit",
+            headerName: "",
+            width: 90,
+            sortable: false,
+            filterable: false,
+            disableColumnMenu: true,
+            renderCell: (params: GridCellParams) => (
+                <EditCar cardata={params.row} />
+            )
+        },
         {
             field: "delete",
             headerName: "",
@@ -66,7 +78,8 @@ function CarList() {
                 rows={data}
                 columns={columns}
                 disableRowSelectionOnClick={true}
-                getRowId={row => row._links.self.href} 
+                getRowId={row => row._links.self.href}
+                slots={{ toolbar: GridToolbar }}
             />
             <Snackbar 
                 open={open}

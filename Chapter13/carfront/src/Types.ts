@@ -1,4 +1,4 @@
-export type CarRepsonse = {
+export type CarResponse = {
     brand : string;
     model : string;
     color : string;
@@ -25,4 +25,9 @@ export type CarRepsonse = {
     registrationNumber : string;
     modelYear : number;
     price : number;
+  }
+
+  export type CarEntry = {
+    car: Car;
+    url: string;
   }
