@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { User } from "../Types";
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Snackbar, Stack, TextField } from "@mui/material";
 import CarList from "./CarList";
 
 const Login = () => {
@@ -10,6 +10,7 @@ const Login = () => {
         password: ""
     });
     const [isAuthenticated, setAuth] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUser({ ...user, [event.target.name]: event.target.value });
@@ -26,7 +27,10 @@ const Login = () => {
                 setAuth(true);
             }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+            console.error(err);
+            setOpen(true);
+        });
     };
 
     if(isAuthenticated) {
@@ -51,6 +55,12 @@ const Login = () => {
                     onClick={handleLogin}>
                     Login
                 </Button>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={3500}
+                    onClose={() => setOpen(false)}
+                    message="Login failed: Check your username and password"
+                />
             </Stack>
         );
     }
