@@ -33,8 +33,13 @@ const Login = () => {
         });
     };
 
+    const handleLogout = () => {
+        setAuth(false);
+        sessionStorage.setItem("jwt", "");
+    };
+
     if(isAuthenticated) {
-        return <CarList />
+        return <CarList logoutHandler={handleLogout} />
     } else {
         return (
             <Stack spacing={2} alignItems="center" mt={2}>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Car, CarEntry, CarResponse } from "../Types";
+import { Car, CarEntry, EditFormProps } from "../Types";
 import { Dialog, DialogActions, DialogTitle, Tooltip } from "@mui/material";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -9,11 +9,7 @@ import CarDialogContent from "./CarDialogContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCar } from "../api/carapi";
 
-type FormProps = {
-    cardata: CarResponse;
-}
-
-function EditCar({ cardata }: FormProps) {
+function EditCar({ cardata }: EditFormProps) {
     const [open, setOpen] = useState(false);
     const [car, setCar] = useState<Car>({
         brand: "",

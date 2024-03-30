@@ -1,13 +1,7 @@
 import { DialogContent } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-
-import { Car } from "../Types";
-
-type DialogFormProps = {
-    car: Car,
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+import { DialogFormProps } from "../Types";
 
 function CarDialogContent({ car, handleChange }: DialogFormProps) {
     return (
