@@ -1,5 +1,6 @@
 import { test, expect, Page } from "@playwright/test";
 
+/* THIS CONTROLS EXECUTION AT THE FILE LEVEL */
 test.describe.configure({ mode: 'serial' });
 
 test.describe("add new car e2e", async () => {
