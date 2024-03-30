@@ -66,21 +66,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
-                .authorizeRequests((authorizeHttpRequests) -> authorizeHttpRequests.anyRequest().permitAll());
+        http.csrf((csrf) -> csrf.disable())
+                .cors(withDefaults())
+                .sessionManagement(
+                        (sessionMangement) -> sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers(HttpMethod.POST,
+                        "/login").permitAll().anyRequest().authenticated())
+                .addFilterBefore(authenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
 
         /*
-         * http.csrf((csrf) -> csrf.disable())
-         * .cors(withDefaults())
-         * .sessionManagement((sessionMangement) ->
-         * sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-         * .authorizeHttpRequests((authorizeHttpRequests) ->
-         * authorizeHttpRequests.requestMatchers(HttpMethod.POST,
-         * "/login").permitAll().anyRequest().authenticated())
-         * .addFilterBefore(authenticationFilter,
-         * UsernamePasswordAuthenticationFilter.class)
-         * .exceptionHandling((exceptionHandling) ->
-         * exceptionHandling.authenticationEntryPoint(exceptionHandler));
+         * http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
+         * .authorizeRequests((authorizeHttpRequests) ->
+         * authorizeHttpRequests.anyRequest().permitAll());
          */
 
         return http.build();
