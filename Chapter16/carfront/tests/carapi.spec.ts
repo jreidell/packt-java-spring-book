@@ -9,19 +9,42 @@ test.describe("add new car e2e", async () => {
 
     test.beforeAll(async ({ browser }) => {
         carShopListPage = await browser.newPage();
+        await carShopListPage.goto(baseURL);
     });
 
     test.afterAll(async () => {
         await carShopListPage.close();
     });
 
-    test("1. verify that the Car Shop data has loaded", async () => {
-        await carShopListPage.goto(baseURL);
+    test("1. test Car Shop app for invlid login", async () => {
+        await expect(carShopListPage).toHaveURL(baseURL);
+        await carShopListPage.locator('html').click();
+        await carShopListPage.getByLabel('Username').click();
+        await carShopListPage.getByLabel('Username').fill('user');
+        await carShopListPage.getByLabel('Username').press('Tab');
+        await carShopListPage.getByLabel('Password').fill('nope');
+        await carShopListPage.getByLabel('Password').press('Tab');
+        await carShopListPage.getByRole('button', { name: 'Login' }).press('Enter');
+        await expect(carShopListPage.getByText('Login failed: Check your')).toHaveCount(1);
+    });
+
+    test("2. test logging in to the Car Shop app", async () => {
+        await expect(carShopListPage).toHaveURL(baseURL);
+        await carShopListPage.getByLabel('Username').click();
+        await carShopListPage.getByLabel('Username').fill('user');
+        await carShopListPage.getByLabel('Password').click();
+        await carShopListPage.getByLabel('Password').fill('user');
+        await carShopListPage.locator('html').click();
+        await carShopListPage.getByRole('button', { name: 'Login' }).click();
+    });
+
+    test("3. verify that the Car Databse Api data has loaded", async () => {
+        await expect(carShopListPage).toHaveURL(baseURL);
         await expect(carShopListPage.getByRole("heading", { name: "Car Shop", exact: true })).toHaveCount(1);
         await expect(carShopListPage.getByText("Loading...")).toHaveCount(0);
     });
 
-    test("2. create a new car", async () => {
+    test("4. create a new car", async () => {
         await expect(carShopListPage).toHaveURL(baseURL);
         await expect(carShopListPage.getByText("Loading...")).toHaveCount(0);
         await expect(carShopListPage.getByRole("row", { name: "Volkswagon Beetle Yellow ABC-1231" })).toHaveCount(0);
@@ -38,7 +61,7 @@ test.describe("add new car e2e", async () => {
         await expect(carShopListPage.getByRole("row", { name: "Volkswagon Beetle Yellow ABC-1231" })).toHaveCount(1);
     });
 
-    test("3. edit the new car", async () => {
+    test("5. edit the new car", async () => {
         await expect(carShopListPage).toHaveURL(baseURL);
         await expect(carShopListPage.getByText("Loading...")).toHaveCount(0);
         await expect(carShopListPage.getByRole("row", { name: "Volkswagon Beetle Yellow ABC-1231" })).toHaveCount(1);
@@ -49,7 +72,7 @@ test.describe("add new car e2e", async () => {
         await expect(carShopListPage.getByRole("row", { name: "Volkswagon Beetle Blue ABC-1231" })).toHaveCount(1);
     });
 
-    test("4. delete new car", async () => {
+    test("6. delete the new car", async () => {
         await expect(carShopListPage).toHaveURL(baseURL);
         carShopListPage.once('dialog', dialog => {
             console.log(`Dialog message: ${dialog.message()}`);
@@ -58,4 +81,14 @@ test.describe("add new car e2e", async () => {
         await carShopListPage.getByRole("row", { name: "Volkswagon Beetle Blue ABC-" }).getByLabel("Remove").click();
         await expect(carShopListPage.getByRole("row", { name: "Volkswagon Beetle Blue ABC-" })).toHaveCount(0);
     });
+
+    test("7. test logging out of the Car Shop app", async () => {
+        await carShopListPage.goto(baseURL);
+        await carShopListPage.locator('html').click();
+        await expect(carShopListPage.getByRole("button", { name: "Log" })).toHaveCount(1);
+        await carShopListPage.getByRole("button", { name: "Log" }).click();
+        await expect(carShopListPage.getByRole("heading", { name: "Car Shop", exact: true })).toHaveCount(1);
+        await expect(carShopListPage.getByRole("button", { name: "Login", exact: true })).toHaveCount(1);
+    });
+
 });
