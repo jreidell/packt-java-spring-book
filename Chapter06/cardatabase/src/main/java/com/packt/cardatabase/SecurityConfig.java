@@ -4,6 +4,11 @@ import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -12,14 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import static org.springframework.security.config.Customizer.withDefaults;
-
 import com.packt.cardatabase.service.UserDetailsServiceImpl;
 
 @Configuration
@@ -29,27 +27,28 @@ public class SecurityConfig {
     private final AuthenticationFilter authenticationFilter;
     private final AuthEntryPoint exceptionHandler;
 
-    private static final String[] SWAGGER_PATHS = {"/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"};
+    private static final String[] SWAGGER_PATHS = { "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" };
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter, AuthEntryPoint exceptionHandler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter,
+            AuthEntryPoint exceptionHandler) {
         this.userDetailsService = userDetailsService;
-        this.authenticationFilter =authenticationFilter;
+        this.authenticationFilter = authenticationFilter;
         this.exceptionHandler = exceptionHandler;
     }
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder((new BCryptPasswordEncoder()));
     }
 
-    //THIS IS NOT LONGER NEEDED NOW THAT WE ARE USING THE DATABASE AS A USER STORE
+    // THIS IS NOT LONGER NEEDED NOW THAT WE ARE USING THE DATABASE AS A USER STORE
     // @Bean
     // public InMemoryUserDetailsManager userDetailService() {
-    //     UserDetails user = User.builder().username("user")
-    //         .password(passwordEncoder().encode("password"))
-    //         .roles("USER").build();
-        
-    //         return new InMemoryUserDetailsManager(user);
+    // UserDetails user = User.builder().username("user")
+    // .password(passwordEncoder().encode("password"))
+    // .roles("USER").build();
+
+    // return new InMemoryUserDetailsManager(user);
     // }
 
     @Bean
@@ -63,14 +62,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable())
-            .cors(withDefaults())
-            .sessionManagement((sessionMangement) -> sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login").permitAll()
-            .requestMatchers(SWAGGER_PATHS).permitAll().anyRequest().authenticated())
-            .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
+                .cors(withDefaults())
+                .sessionManagement(
+                        (sessionMangement) -> sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(SWAGGER_PATHS).permitAll().anyRequest().authenticated())
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
 
         return http.build();
     }

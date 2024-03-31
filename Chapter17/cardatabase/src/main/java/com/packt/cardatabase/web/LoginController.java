@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.packt.cardatabase.domain.AccountCredentials;
 import com.packt.cardatabase.service.JwtService;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
+@ControllerAdvice
 public class LoginController {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -25,21 +27,19 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> getToken(@RequestBody AccountCredentials accountCredentials) {
-        UsernamePasswordAuthenticationToken creds = new 
-        UsernamePasswordAuthenticationToken(accountCredentials.username(), 
-                                            accountCredentials.password());
+        UsernamePasswordAuthenticationToken creds = new UsernamePasswordAuthenticationToken(
+                accountCredentials.username(),
+                accountCredentials.password());
         Authentication auth = authenticationManager.authenticate(creds);
 
         // Generate token
         String jwts = jwtService.getToken(auth.getName());
-        
+
         // Build the response with the generated token
         return ResponseEntity.ok()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
-            .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
-            .build();
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
+                .build();
     }
-    
 
-    
 }

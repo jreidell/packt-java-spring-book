@@ -1,14 +1,16 @@
 package com.packt.cardatabase.web;
 
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.packt.cardatabase.domain.Car;
 import com.packt.cardatabase.domain.CarRepository;
 
 @RestController
+@ControllerAdvice
 public class CarController {
     private final CarRepository carRepository;
-    
+
     public CarController(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
@@ -18,5 +20,5 @@ public class CarController {
         // Fetch and return cars
         return carRepository.findAll();
     }
-    
+
 }

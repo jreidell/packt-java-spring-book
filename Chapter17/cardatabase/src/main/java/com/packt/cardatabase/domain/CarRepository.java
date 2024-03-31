@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CarRepository extends CrudRepository<Car, Long>, PagingAndSortingRepository<Car, Long> {
     // Fetch cars by brand
     List<Car> findByBrand(@Param("brand") String brand);
@@ -30,8 +32,8 @@ public interface CarRepository extends CrudRepository<Car, Long>, PagingAndSorti
 
     // EXAMPLE OF SQL STATEMENTS USING THE @Query ANNOTATION
     // Fetch cars by brand using SQL
-    //@Query("select c from Car c where c.brand = ?1")
-    //List<Car> findByBrand(@PathParam("brand") String brand);
+    // @Query("select c from Car c where c.brand = ?1")
+    // List<Car> findByBrand(@PathParam("brand") String brand);
 
     // Fetch cars by brand using SQL
     @Query("select c from Car c where c.brand like %?1")

@@ -1,7 +1,6 @@
 package com.packt.cardatabase;
 
 import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,9 +15,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -30,6 +26,8 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationFilter authenticationFilter;
     private final AuthEntryPoint exceptionHandler;
+
+    private static final String[] SWAGGER_PATHS = { "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" };
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter,
             AuthEntryPoint exceptionHandler) {
@@ -65,22 +63,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http.csrf((csrf) -> csrf.disable())
                 .cors(withDefaults())
                 .sessionManagement(
                         (sessionMangement) -> sessionMangement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers(HttpMethod.POST,
-                        "/login").permitAll().anyRequest().authenticated())
-                .addFilterBefore(authenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(SWAGGER_PATHS).permitAll().anyRequest().authenticated())
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(exceptionHandler));
-
-        /*
-         * http.csrf((csrf) -> csrf.disable()).cors(withDefaults())
-         * .authorizeRequests((authorizeHttpRequests) ->
-         * authorizeHttpRequests.anyRequest().permitAll());
-         */
 
         return http.build();
     }
