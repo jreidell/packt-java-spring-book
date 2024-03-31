@@ -101,9 +101,9 @@ public class CarController {
 9. Chapter 9, [Introduction to TypeScript](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter09)
 10. Chapter 10, [Consuming the REST API with React](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter10)
 11. Chapter 11, [Useful Third-Party Components for React](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter11)
-12. Chapter 12, [Setting Up the Frontend for Our Spring Boot RESTful Web Service](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter12)
+12. Chapter 12, [Setting Up the Frontend for the Spring Boot RESTful Web Service](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter12)
 13. Chapter 13, [Adding CRUD Functionalities](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter13)
 14. Chapter 14, [Styling the Frontend with MUI](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter14)
 15. Chapter 15, [Testing React Apps](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter15)
-16. Chapter 16, [Securing Your Application](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter16)
-17. Chapter 17, Deploying Your Application
+16. Chapter 16, [Securing The Application](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter16)
+17. Chapter 17, [Integrating Automated Testing and Deploying the Application](https://github.com/jreidell/packt-java-spring-book/tree/main/Chapter17)
